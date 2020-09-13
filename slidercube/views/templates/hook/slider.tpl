@@ -1,5 +1,5 @@
 <div class="slider">
-  <div class="container">
+  <div class="container-slider">
     <div class="slide x"></div>
     <div class="slide y"></div>
     <div class="slide z"></div>

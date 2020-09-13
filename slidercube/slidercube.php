@@ -49,25 +49,7 @@ class SliderCube extends Module
 
 		public function getContent()
 		{
-			$output = null;
-
-			if (Tools::isSubmit('submit'.$this->name)) {
-				$sliderCubeModule = strval(Tools::getValue('SLIDERCUBE_MODULE'));
-
-				if (
-					!$sliderCubeModule ||
-					empty($sliderCubeModule) ||
-					!Validate::isGenericName($sliderCubeModule)
-				) {
-					$output .= $this->displayError($this->l('Invalid Configuration value'));
-				} else {
-					$this->postProcess();
-					Configuration::updateValue('SLIDERCUBE_MODULE', $sliderCubeModule);
-					$output .= $this->displayConfirmation($this->l('Settings updated'));
-				}
-			}
-
-			return $output.$this->displayForm();
+		return $this->postProcess() . $this->displayForm();
 		}
 
 		public function displayForm()
@@ -84,7 +66,8 @@ class SliderCube extends Module
 					[
 						'type' => 'file',
 						'label' => $this->l('Imagen Producto'),
-						'name' => 'SLIDERCUBE_MODULE_IMG1',
+						'name' => 'SLIDERCUBE_MODULE_IMG[]',
+						'id' => 'img1',
 						'display_image' => true,
 						'required' => true
 					],
@@ -92,7 +75,8 @@ class SliderCube extends Module
 					[
 						'type' => 'file',
 						'label' => $this->l('Imagen Producto'),
-						'name' => 'SLIDERCUBE_MODULE_IMG2',
+						'name' => 'SLIDERCUBE_MODULE_IMG[]',
+						'id' => 'img2',
 						'display_image' => true,
 						'required' => true
 					],
@@ -100,7 +84,8 @@ class SliderCube extends Module
 					[
 						'type' => 'file',
 						'label' => $this->l('Imagen Producto'),
-						'name' => 'SLIDERCUBE_MODULE_IMG3',
+						'name' => 'SLIDERCUBE_MODULE_IMG[]',
+						'id' => 'img3',
 						'display_image' => true,
 						'required' => true
 					],
@@ -108,7 +93,8 @@ class SliderCube extends Module
 					[
 						'type' => 'file',
 						'label' => $this->l('Imagen Producto'),
-						'name' => 'SLIDERCUBE_MODULE_IMG4',
+						'name' => 'SLIDERCUBE_MODULE_IMG[]',
+						'id' => 'img4',
 						'display_image' => true,
 						'required' => true
 					],
@@ -116,7 +102,8 @@ class SliderCube extends Module
 					[
 						'type' => 'file',
 						'label' => $this->l('Imagen Producto'),
-						'name' => 'SLIDERCUBE_MODULE_IMG5',
+						'name' => 'SLIDERCUBE_MODULE_IMG[]',
+						'id' => 'img5',
 						'display_image' => true,
 						'required' => true
 					],
@@ -124,7 +111,8 @@ class SliderCube extends Module
 					[
 						'type' => 'file',
 						'label' => $this->l('Imagen Producto'),
-						'name' => 'SLIDERCUBE_MODULE_IMG6',
+						'name' => 'SLIDERCUBE_MODULE_IMG[]',
+						'id' => 'img6',
 						'display_image' => true,
 						'required' => true
 					]
@@ -173,17 +161,20 @@ class SliderCube extends Module
 public function postProcess(){
 	if (Tools::isSubmit('submit_form'))
 		{	
+
+ $countfiles = count($_FILES['SLIDERCUBE_MODULE_IMG']['name']);
+ 
+ // Looping all files
+ for($i=0;$i<$countfiles;$i++){
 			//file upload code
-			if (isset($_FILES['file_url'])) 
-			{	
 				$target_dir = _PS_UPLOAD_DIR_;
-				$target_file = $target_dir . basename($_FILES['file_url']["name"]);	
+				$target_file = $target_dir . basename($_FILES['SLIDERCUBE_MODULE_IMG']["name"]);	
 				$uploadOk = 1;
 				$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 				// Check if image file is a actual image or fake image
 				if(isset($_POST["submit"])) 
 				{
-					$check = getimagesize($_FILES['file_url']["tmp_name"]);
+					$check = getimagesize($_FILES['SLIDERCUBE_MODULE_IMG']["tmp_name"]);
 					if($check !== false) {
 						echo "File is an image - " . $check["mime"] . ".";
 						$uploadOk = 1;
@@ -209,10 +200,10 @@ public function postProcess(){
 				}
 				else 
 				{
-					if (move_uploaded_file($_FILES['file_url']["tmp_name"], $target_file)) 
+					if (move_uploaded_file($_FILES['SLIDERCUBE_MODULE_IMG']["tmp_name"], $target_file)) 
 					{
-						echo "The file ". basename($_FILES['file_url']["name"]). " has been uploaded.";
-						$file_location = basename($_FILES['file_url']["name"]);
+						echo "The file ". basename($_FILES['SLIDERCUBE_MODULE_IMG']["name"]). " has been uploaded.";
+						$file_location = basename($_FILES['SLIDERCUBE_MODULE_IMG']["name"]);
 					} 
 					else 
 					{

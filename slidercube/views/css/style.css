@@ -1,10 +1,6 @@
 
 .slider {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
+	
 	width: 200px;
 	height: 200px;
 	margin: auto;
@@ -17,7 +13,7 @@
 	transition: all 1s cubic-bezier(0.5, -0.75, 0.2, 1.5);
 }
 
-.container {
+.container-slider {
 	width: inherit;
 	height: inherit;
 	-webkit-transform-style: preserve-3d;
@@ -96,7 +92,7 @@
 }
 
 
-.container {
+.container-slider {
 	-webkit-animation: rotate 15s infinite cubic-bezier(1, -0.75, 0.5, 1.2);
 	animation: rotate 15s infinite cubic-bezier(1, -0.75, 0.5, 1.2);
 }
